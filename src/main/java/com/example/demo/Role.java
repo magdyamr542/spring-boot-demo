@@ -1,28 +1,24 @@
 package com.example.demo;
 
-import java.util.List;
-import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import java.util.Objects;
 
 @Entity
-class Employee {
+class Role {
 
 	private @Id @GeneratedValue Long id;
 	private String name;
+	private String description;
 
-	@OneToMany
-	private List<Role> roles;
-
-	Employee() {
+	Role() {
 	}
 
-	Employee(String name, List<Role> roles) {
+	Role(String name, String description) {
+
 		this.name = name;
-		this.roles = roles;
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -33,8 +29,8 @@ class Employee {
 		return this.name;
 	}
 
-	public List<Role> getRoles() {
-		return this.roles;
+	public String getDeString() {
+		return this.description;
 	}
 
 	public void setId(Long id) {
@@ -45,12 +41,8 @@ class Employee {
 		this.name = name;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
-	public void addRole(Role role) {
-		this.roles.add(role);
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -60,18 +52,19 @@ class Employee {
 			return true;
 		if (!(o instanceof Employee))
 			return false;
-		Employee employee = (Employee) o;
-		return Objects.equals(this.id, employee.id) && Objects.equals(this.name, employee.name);
-
+		Role role = (Role) o;
+		return Objects.equals(this.id, role.id) && Objects.equals(this.name, role.name)
+				&& Objects.equals(this.description, role.description);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.id, this.name);
+		return Objects.hash(this.id, this.name, this.description);
 	}
 
 	@Override
 	public String toString() {
-		return "Employee{" + "id=" + this.id + ", name='" + this.name + '}';
+		return "Role{" + "id=" + this.id + ", name='" + this.name + '\'' + ", description='" + this.description
+				+ '\'' + '}';
 	}
 }
