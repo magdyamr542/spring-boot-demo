@@ -1,14 +1,14 @@
 package com.example.demo;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.data.annotation.Id;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
 
 class EmployeeNotFoundException extends RuntimeException {
 
@@ -27,28 +27,16 @@ class EmployeeController {
 		this.repository = repository;
 	}
 
-	// Aggregate root
-	// tag::get-aggregate-root[]
-	@GetMapping("/employees")
-	List<Employee> all() {
+	@QueryMapping
+	List<Employee> employees() {
 		logger.info("Getting all employees");
 		return repository.findAll();
 	}
-	// end::get-aggregate-root[]
 
-	@PostMapping("/employees")
-	Employee newEmployee(@RequestBody Employee newEmployee) {
-		logger.info("Adding a new employee " + newEmployee);
-		return repository.save(newEmployee);
-	}
-
-	// Single item
-	@GetMapping("/employees/{id}/internal/{name}")
-	Employee one(@PathVariable Long id, @PathVariable String name) {
-
-		logger.info("Getting a student with id=" + id + " and name=" + name);
-		return repository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(id));
+	@QueryMapping
+	Optional<Employee> employeeById(@Argument Long id) {
+		logger.info("Getting one employee with id " + id);
+		return repository.findById(id);
 	}
 
 }
