@@ -2,12 +2,19 @@ type Query {
   employees: [Employee!]!
   roles: [Role!]!
   employeeById(id: ID): Employee
+  secrets: [Secret!]!
+}
+
+type Secret {
+  id: ID
+  value: String
 }
 
 type Employee {
   id: ID
   name: String
   roles: [Role]
+  secret: Secret
 }
 
 type Role {
@@ -18,7 +25,10 @@ type Role {
 
 type Mutation {
   addEmployee(ep: EmployeeInput!): Employee
+  deleteEmployee(id: ID!): Boolean
   addRoleToEmployee(employeeId: ID, role: RoleInput): Employee
+  addSecret(value: String): Secret
+  addSecretToEmployee(secretId: ID, employeeId: ID): Secret
 }
 
 input RoleInput {

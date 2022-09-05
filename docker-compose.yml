@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./db:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DATABASE=spring
+      - POSTGRES_USER=spring
+      - POSTGRES_PASSWORD=spring
+    ports:
+      - "5432:5432"
+  backend:
+    image: openjdk:18-alpine
+    command: java -jar /code/libs/demo-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./build:/code
+    ports:
+      - "8080:8080"

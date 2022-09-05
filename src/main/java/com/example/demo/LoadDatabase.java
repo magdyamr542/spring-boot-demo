@@ -18,6 +18,8 @@ public class LoadDatabase {
 	CommandLineRunner initDatabase(EmployeeRepository employeeRepository, RoleRepository roleRepository) {
 		return args -> {
 
+			logger.info("Loading the database...");
+
 			Role role1 = new Role("software developer", "front end work");
 			Role role2 = new Role("Business manager", "does nothing");
 			Role role3 = new Role("Doctor", "does nursing");
