@@ -29,6 +29,11 @@ type Mutation {
   addRoleToEmployee(employeeId: ID, role: RoleInput): Employee
   addSecret(value: String): Secret
   addSecretToEmployee(secretId: ID, employeeId: ID): Secret
+  sendMessageToQueue(
+    value: String
+    routingKey: String
+    exchange: String
+  ): Boolean
 }
 
 input RoleInput {

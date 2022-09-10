@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -22,6 +23,9 @@ class Controller {
 
   @Autowired
   private final EmployeeRepository employeeRepo;
+
+  @Autowired
+  RabbitTemplate rabbitTemplate;
 
   @Autowired
   private final SecretRepository secretRepo;
@@ -133,6 +137,21 @@ class Controller {
   Boolean deleteEmployee(@Argument Long id) {
     logger.info("Deleting employee with id" + id);
     employeeRepo.deleteById(id);
+    return true;
+  }
+
+  @MutationMapping
+  Boolean sendMessageToQueue(
+    @Argument String value,
+    @Argument String routingKey,
+    @Argument String exchange
+  ) {
+    logger.info("-----");
+    logger.info("Send msg:" + value);
+    logger.info("Exchange:" + exchange);
+    logger.info("Routing key:" + routingKey);
+    logger.info("-----");
+    this.rabbitTemplate.convertAndSend(exchange, routingKey, value);
     return true;
   }
 }
