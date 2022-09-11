@@ -10,6 +10,7 @@ build:
 restart-backend: 
 	./gradlew bootJar
 	docker compose restart backend
+	docker compose logs -f backend
 
 logs:
 	docker compose logs -f

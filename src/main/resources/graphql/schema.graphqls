@@ -1,9 +1,11 @@
 type Query {
   employees: [Employee!]!
+  employeesSortedByName: [Employee!]!
   roles: [Role!]!
   employeeById(id: ID): Employee
   secrets: [Secret!]!
   getEmployeeByName(name: String): [Employee!]!
+  getEmployeeLimited(count: Int): [Employee!]!
 }
 
 type Secret {

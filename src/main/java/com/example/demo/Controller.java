@@ -6,7 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -49,13 +50,25 @@ class Controller {
   }
 
   @QueryMapping
+  Iterable<Employee> employeesSortedByName() {
+    logger.info("Getting all employees sorted by name ");
+    return employeeRepo.findAll(Sort.by("name"));
+  }
+
+  @QueryMapping
+  Iterable<Employee> getEmployeeLimited(@Argument int count) {
+    logger.info("Getting limited number of employees ", count);
+    return employeeRepo.findAll(PageRequest.ofSize(count));
+  }
+
+  @QueryMapping
   List<Employee> getEmployeeByName(@Argument String name) {
     logger.info("Getting all employees by name " + name);
     return employeeRepo.findByNameLike(name);
   }
 
   @QueryMapping
-  List<Employee> employees() {
+  Iterable<Employee> employees() {
     logger.info("Getting all employees");
     return employeeRepo.findAll();
   }
