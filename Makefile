@@ -11,6 +11,9 @@ restart-backend:
 	./gradlew bootJar
 	docker compose restart backend
 
+logs:
+	docker compose logs -f
+
 db: 
 	docker compose exec db psql -U spring                                                                                                              
 

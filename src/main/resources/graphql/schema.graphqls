@@ -3,6 +3,7 @@ type Query {
   roles: [Role!]!
   employeeById(id: ID): Employee
   secrets: [Secret!]!
+  getEmployeeByName(name: String): [Employee!]!
 }
 
 type Secret {

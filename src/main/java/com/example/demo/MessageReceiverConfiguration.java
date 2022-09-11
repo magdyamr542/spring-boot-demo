@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 public class MessageReceiverConfiguration {
 
   private static final Logger logger = LoggerFactory.getLogger(
-    LoadDatabase.class
+    MessageReceiverConfiguration.class
   );
 
   private final String queueName = "demo-queue";
